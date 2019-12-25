@@ -1,0 +1,999 @@
+bool Sentences(AST r): 
+{}
+{
+    {
+        r.type = ASTType.Sentences;
+        r.children.clear();
+        AST ast;
+
+        Sentences -> Sentence Sentences_
+
+
+        return true;
+    }
+}
+bool Sentence(AST r): 
+{}
+{
+    {
+        r.type = ASTType.Sentence;
+        r.children.clear();
+        AST ast;
+
+        Sentence -> Type DeclVarExpr *{* Sentences *}* Sentence_
+Sentence -> *RETURN* CommaExpr *;* Sentence_
+Sentence -> *RETURN* *;* Sentence_
+Sentence -> *{* Sentences *}* Sentence_
+Sentence -> Type DeclCommaExpr *;* Sentence_
+Sentence -> CommaExpr *;* Sentence_
+Sentence -> *IF* *(* CommaExpr *)* Sentence Sentence_
+Sentence -> *IF* *(* CommaExpr *)* Sentence *ELSE* Sentence Sentence_
+Sentence -> *WHILE* *(* CommaExpr *)* Sentence Sentence_
+Sentence -> *BREAK* *;* Sentence_
+Sentence -> *CONTINUE* *;* Sentence_
+Sentence -> *;* Sentence_
+
+
+        return true;
+    }
+}
+bool FuncParamBracketExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.FuncParamBracketExpr;
+        r.children.clear();
+        AST ast;
+
+        FuncParamBracketExpr -> *(* *)* FuncParamBracketExpr_
+FuncParamBracketExpr -> *(* FuncParamCommaExpr *)* FuncParamBracketExpr_
+
+
+        return true;
+    }
+}
+bool FuncParamCommaExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.FuncParamCommaExpr;
+        r.children.clear();
+        AST ast;
+
+        FuncParamCommaExpr -> FuncParamExpr FuncParamCommaExpr_
+
+
+        return true;
+    }
+}
+bool FuncParamExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.FuncParamExpr;
+        r.children.clear();
+        AST ast;
+
+        FuncParamExpr -> Type DeclVarExpr FuncParamExpr_
+FuncParamExpr -> Type DeclTypeExpr FuncParamExpr_
+FuncParamExpr -> Type FuncParamExpr_
+
+
+        return true;
+    }
+}
+bool DeclCommaExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.DeclCommaExpr;
+        r.children.clear();
+        AST ast;
+
+        DeclCommaExpr -> DeclExpr DeclCommaExpr_
+
+
+        return true;
+    }
+}
+bool DeclExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.DeclExpr;
+        r.children.clear();
+        AST ast;
+
+        DeclExpr -> DeclVarExpr DeclExpr_
+DeclExpr -> DeclVarExpr *=* AssignExpr DeclExpr_
+DeclExpr -> DeclVarExpr *=* *{* CommaExpr *}* DeclExpr_
+
+
+        return true;
+    }
+}
+bool Type(AST r): 
+{}
+{
+    {
+        r.type = ASTType.Type;
+        r.children.clear();
+        AST ast;
+
+        Type -> *INT* Type_
+Type -> *REAL* Type_
+Type -> *CHAR* Type_
+Type -> *VOID* Type_
+
+
+        return true;
+    }
+}
+bool Literal(AST r): 
+{}
+{
+    {
+        r.type = ASTType.Literal;
+        r.children.clear();
+        AST ast;
+
+        Literal -> *INTLITERAL* Literal_
+Literal -> *REALLITERAL* Literal_
+Literal -> *CHARLITERAL* Literal_
+Literal -> *STRINGLITERAL* Literal_
+
+
+        return true;
+    }
+}
+bool CommaExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.CommaExpr;
+        r.children.clear();
+        AST ast;
+
+        CommaExpr -> AssignExpr CommaExpr_
+
+
+        return true;
+    }
+}
+bool AssignExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.AssignExpr;
+        r.children.clear();
+        AST ast;
+
+        AssignExpr -> LogicOrExpr *=* AssignExpr AssignExpr_
+AssignExpr -> LogicOrExpr AssignExpr_
+
+
+        return true;
+    }
+}
+bool LogicOrExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.LogicOrExpr;
+        r.children.clear();
+        AST ast;
+
+        LogicOrExpr -> LogicAndExpr LogicOrExpr_
+
+
+        return true;
+    }
+}
+bool LogicAndExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.LogicAndExpr;
+        r.children.clear();
+        AST ast;
+
+        LogicAndExpr -> BitOrExpr LogicAndExpr_
+
+
+        return true;
+    }
+}
+bool BitOrExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.BitOrExpr;
+        r.children.clear();
+        AST ast;
+
+        BitOrExpr -> BitExOrExpr BitOrExpr_
+
+
+        return true;
+    }
+}
+bool BitExOrExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.BitExOrExpr;
+        r.children.clear();
+        AST ast;
+
+        BitExOrExpr -> BitAndExpr BitExOrExpr_
+
+
+        return true;
+    }
+}
+bool BitAndExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.BitAndExpr;
+        r.children.clear();
+        AST ast;
+
+        BitAndExpr -> RelExpr BitAndExpr_
+
+
+        return true;
+    }
+}
+bool RelExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.RelExpr;
+        r.children.clear();
+        AST ast;
+
+        RelExpr -> AddSubExpr RelExpr_
+
+
+        return true;
+    }
+}
+bool RelOp(AST r): 
+{}
+{
+    {
+        r.type = ASTType.RelOp;
+        r.children.clear();
+        AST ast;
+
+        RelOp -> *<* RelOp_
+RelOp -> *<=* RelOp_
+RelOp -> *==* RelOp_
+RelOp -> *<>* RelOp_
+RelOp -> *>* RelOp_
+RelOp -> *>=* RelOp_
+
+
+        return true;
+    }
+}
+bool AddSubExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.AddSubExpr;
+        r.children.clear();
+        AST ast;
+
+        AddSubExpr -> MulDivExpr AddSubExpr_
+
+
+        return true;
+    }
+}
+bool AddSubOp(AST r): 
+{}
+{
+    {
+        r.type = ASTType.AddSubOp;
+        r.children.clear();
+        AST ast;
+
+        AddSubOp -> *+* AddSubOp_
+AddSubOp -> *-* AddSubOp_
+
+
+        return true;
+    }
+}
+bool MulDivExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.MulDivExpr;
+        r.children.clear();
+        AST ast;
+
+        MulDivExpr -> UnaryExpr MulDivExpr_
+
+
+        return true;
+    }
+}
+bool MulDivOp(AST r): 
+{}
+{
+    {
+        r.type = ASTType.MulDivOp;
+        r.children.clear();
+        AST ast;
+
+        MulDivOp -> *** MulDivOp_
+MulDivOp -> */* MulDivOp_
+MulDivOp -> *%* MulDivOp_
+
+
+        return true;
+    }
+}
+bool UnaryExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.UnaryExpr;
+        r.children.clear();
+        AST ast;
+
+        UnaryExpr -> UnaryOp UnaryExpr UnaryExpr_
+UnaryExpr -> PostUnaryExpr UnaryExpr_
+
+
+        return true;
+    }
+}
+bool UnaryOp(AST r): 
+{}
+{
+    {
+        r.type = ASTType.UnaryOp;
+        r.children.clear();
+        AST ast;
+
+        UnaryOp -> *+* UnaryOp_
+UnaryOp -> *-* UnaryOp_
+UnaryOp -> *** UnaryOp_
+UnaryOp -> *&* UnaryOp_
+UnaryOp -> *!* UnaryOp_
+UnaryOp -> *~* UnaryOp_
+UnaryOp -> *++* UnaryOp_
+UnaryOp -> *--* UnaryOp_
+
+
+        return true;
+    }
+}
+bool PostUnaryExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.PostUnaryExpr;
+        r.children.clear();
+        AST ast;
+
+        PostUnaryExpr -> BracketExpr PostUnaryExpr_
+
+
+        return true;
+    }
+}
+bool PostUnaryOp(AST r): 
+{}
+{
+    {
+        r.type = ASTType.PostUnaryOp;
+        r.children.clear();
+        AST ast;
+
+        PostUnaryOp -> *++* PostUnaryOp_
+PostUnaryOp -> *--* PostUnaryOp_
+PostUnaryOp -> *(* *)* PostUnaryOp_
+PostUnaryOp -> *(* CommaExpr *)* PostUnaryOp_
+PostUnaryOp -> *[* CommaExpr *]* PostUnaryOp_
+
+
+        return true;
+    }
+}
+bool BracketExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.BracketExpr;
+        r.children.clear();
+        AST ast;
+
+        BracketExpr -> *(* CommaExpr *)* BracketExpr_
+BracketExpr -> *ID* BracketExpr_
+BracketExpr -> *INTLITERAL* Literal_ BracketExpr_
+BracketExpr -> *REALLITERAL* Literal_ BracketExpr_
+BracketExpr -> *CHARLITERAL* Literal_ BracketExpr_
+BracketExpr -> *STRINGLITERAL* Literal_ BracketExpr_
+
+
+        return true;
+    }
+}
+bool DeclVarExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.DeclVarExpr;
+        r.children.clear();
+        AST ast;
+
+        DeclVarExpr -> *** DeclVarExpr DeclVarExpr_
+DeclVarExpr -> DeclVarArrFuncExpr DeclVarExpr_
+
+
+        return true;
+    }
+}
+bool DeclVarArrFuncExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.DeclVarArrFuncExpr;
+        r.children.clear();
+        AST ast;
+
+        DeclVarArrFuncExpr -> DeclVarBracketExpr DeclVarArrFuncExpr_
+
+
+        return true;
+    }
+}
+bool DeclVarBracketExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.DeclVarBracketExpr;
+        r.children.clear();
+        AST ast;
+
+        DeclVarBracketExpr -> *(* DeclVarExpr *)* DeclVarBracketExpr_
+DeclVarBracketExpr -> *ID* DeclVarBracketExpr_
+
+
+        return true;
+    }
+}
+bool DeclTypeExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.DeclTypeExpr;
+        r.children.clear();
+        AST ast;
+
+        DeclTypeExpr -> *** DeclTypeExpr DeclTypeExpr_
+DeclTypeExpr -> DeclTypeArrFuncExpr DeclTypeExpr_
+DeclTypeExpr -> *** DeclTypeExpr_
+
+
+        return true;
+    }
+}
+bool DeclTypeArrFuncExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.DeclTypeArrFuncExpr;
+        r.children.clear();
+        AST ast;
+
+        DeclTypeArrFuncExpr -> DeclTypeBracketExpr DeclTypeArrFuncExpr_
+DeclTypeArrFuncExpr -> *[* *]* DeclTypeArrFuncExpr_
+DeclTypeArrFuncExpr -> *[* *INTLITERAL* *]* DeclTypeArrFuncExpr_
+DeclTypeArrFuncExpr -> *(* *)* FuncParamBracketExpr_ DeclTypeArrFuncExpr_
+DeclTypeArrFuncExpr -> *(* FuncParamCommaExpr *)* FuncParamBracketExpr_ DeclTypeArrFuncExpr_
+
+
+        return true;
+    }
+}
+bool DeclTypeBracketExpr(AST r): 
+{}
+{
+    {
+        r.type = ASTType.DeclTypeBracketExpr;
+        r.children.clear();
+        AST ast;
+
+        DeclTypeBracketExpr -> *(* DeclTypeExpr *)* DeclTypeBracketExpr_
+
+
+        return true;
+    }
+}
+bool Sentences_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.Sentences_;
+        r.children.clear();
+        AST ast;
+
+        Sentences_ -> Sentence Sentences_
+Sentences_ -> %E%
+
+
+        return true;
+    }
+}
+bool Sentence_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.Sentence_;
+        r.children.clear();
+        AST ast;
+
+        Sentence_ -> %E%
+
+
+        return true;
+    }
+}
+bool FuncParamBracketExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.FuncParamBracketExpr_;
+        r.children.clear();
+        AST ast;
+
+        FuncParamBracketExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool FuncParamCommaExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.FuncParamCommaExpr_;
+        r.children.clear();
+        AST ast;
+
+        FuncParamCommaExpr_ -> *,* FuncParamExpr FuncParamCommaExpr_
+FuncParamCommaExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool FuncParamExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.FuncParamExpr_;
+        r.children.clear();
+        AST ast;
+
+        FuncParamExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool DeclCommaExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.DeclCommaExpr_;
+        r.children.clear();
+        AST ast;
+
+        DeclCommaExpr_ -> *,* DeclExpr DeclCommaExpr_
+DeclCommaExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool DeclExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.DeclExpr_;
+        r.children.clear();
+        AST ast;
+
+        DeclExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool Type_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.Type_;
+        r.children.clear();
+        AST ast;
+
+        Type_ -> %E%
+
+
+        return true;
+    }
+}
+bool Literal_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.Literal_;
+        r.children.clear();
+        AST ast;
+
+        Literal_ -> %E%
+
+
+        return true;
+    }
+}
+bool CommaExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.CommaExpr_;
+        r.children.clear();
+        AST ast;
+
+        CommaExpr_ -> *,* AssignExpr CommaExpr_
+CommaExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool AssignExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.AssignExpr_;
+        r.children.clear();
+        AST ast;
+
+        AssignExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool LogicOrExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.LogicOrExpr_;
+        r.children.clear();
+        AST ast;
+
+        LogicOrExpr_ -> *||* LogicAndExpr LogicOrExpr_
+LogicOrExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool LogicAndExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.LogicAndExpr_;
+        r.children.clear();
+        AST ast;
+
+        LogicAndExpr_ -> *&&* BitOrExpr LogicAndExpr_
+LogicAndExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool BitOrExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.BitOrExpr_;
+        r.children.clear();
+        AST ast;
+
+        BitOrExpr_ -> *|* BitExOrExpr BitOrExpr_
+BitOrExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool BitExOrExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.BitExOrExpr_;
+        r.children.clear();
+        AST ast;
+
+        BitExOrExpr_ -> *^* BitAndExpr BitExOrExpr_
+BitExOrExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool BitAndExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.BitAndExpr_;
+        r.children.clear();
+        AST ast;
+
+        BitAndExpr_ -> *&* RelExpr BitAndExpr_
+BitAndExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool RelExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.RelExpr_;
+        r.children.clear();
+        AST ast;
+
+        RelExpr_ -> RelOp AddSubExpr RelExpr_
+RelExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool RelOp_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.RelOp_;
+        r.children.clear();
+        AST ast;
+
+        RelOp_ -> %E%
+
+
+        return true;
+    }
+}
+bool AddSubExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.AddSubExpr_;
+        r.children.clear();
+        AST ast;
+
+        AddSubExpr_ -> AddSubOp MulDivExpr AddSubExpr_
+AddSubExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool AddSubOp_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.AddSubOp_;
+        r.children.clear();
+        AST ast;
+
+        AddSubOp_ -> %E%
+
+
+        return true;
+    }
+}
+bool MulDivExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.MulDivExpr_;
+        r.children.clear();
+        AST ast;
+
+        MulDivExpr_ -> MulDivOp UnaryExpr MulDivExpr_
+MulDivExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool MulDivOp_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.MulDivOp_;
+        r.children.clear();
+        AST ast;
+
+        MulDivOp_ -> %E%
+
+
+        return true;
+    }
+}
+bool UnaryExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.UnaryExpr_;
+        r.children.clear();
+        AST ast;
+
+        UnaryExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool UnaryOp_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.UnaryOp_;
+        r.children.clear();
+        AST ast;
+
+        UnaryOp_ -> %E%
+
+
+        return true;
+    }
+}
+bool PostUnaryExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.PostUnaryExpr_;
+        r.children.clear();
+        AST ast;
+
+        PostUnaryExpr_ -> PostUnaryOp PostUnaryExpr_
+PostUnaryExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool PostUnaryOp_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.PostUnaryOp_;
+        r.children.clear();
+        AST ast;
+
+        PostUnaryOp_ -> %E%
+
+
+        return true;
+    }
+}
+bool BracketExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.BracketExpr_;
+        r.children.clear();
+        AST ast;
+
+        BracketExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool DeclVarExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.DeclVarExpr_;
+        r.children.clear();
+        AST ast;
+
+        DeclVarExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool DeclVarArrFuncExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.DeclVarArrFuncExpr_;
+        r.children.clear();
+        AST ast;
+
+        DeclVarArrFuncExpr_ -> *[* *]* DeclVarArrFuncExpr_
+DeclVarArrFuncExpr_ -> *[* *INTLITERAL* *]* DeclVarArrFuncExpr_
+DeclVarArrFuncExpr_ -> FuncParamBracketExpr DeclVarArrFuncExpr_
+DeclVarArrFuncExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool DeclVarBracketExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.DeclVarBracketExpr_;
+        r.children.clear();
+        AST ast;
+
+        DeclVarBracketExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool DeclTypeExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.DeclTypeExpr_;
+        r.children.clear();
+        AST ast;
+
+        DeclTypeExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool DeclTypeArrFuncExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.DeclTypeArrFuncExpr_;
+        r.children.clear();
+        AST ast;
+
+        DeclTypeArrFuncExpr_ -> *[* *]* DeclTypeArrFuncExpr_
+DeclTypeArrFuncExpr_ -> *[* *INTLITERAL* *]* DeclTypeArrFuncExpr_
+DeclTypeArrFuncExpr_ -> FuncParamBracketExpr DeclTypeArrFuncExpr_
+DeclTypeArrFuncExpr_ -> %E%
+
+
+        return true;
+    }
+}
+bool DeclTypeBracketExpr_(AST r): 
+{}
+{
+    {
+        r.type = ASTType.DeclTypeBracketExpr_;
+        r.children.clear();
+        AST ast;
+
+        DeclTypeBracketExpr_ -> %E%
+
+
+        return true;
+    }
+}

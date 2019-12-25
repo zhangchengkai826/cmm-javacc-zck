@@ -74,9 +74,42 @@ TOKEN : { < CLT: "'"  (("\\" "~[]") | (~["'", "\\"])) "'"  > }
 TOKEN : { < SLT: "\""  (("\\" "~[]") | (~["\"", "\\"]))* "\"" > }
 TOKEN : { < ID: ["A"-"Z", "a"-"z"] ((["A"-"Z", "a"-"z", "_"])* ["A"-"Z", "a"-"z", "0"-"9"])? > }
 
-void Sentences(): 
+bool Sentences(AST r): 
 {}
 {
-    { AST r = new AST(); }
-    <EOF>
+    {
+        r.type = ASTType.Sentences;
+        r.children.clear();
+        AST ast;
+        ast = new AST();
+        if(!Sentence(ast))
+            return false;
+        r.children.add(ast);
+        ast = new AST();
+        if(!Sentences_(ast))
+            return false;
+        r.children.add(ast);
+        return true;
+    }
+}
+
+bool Sentence(AST r):
+{}
+{
+    {
+        r.type = ASTType.Sentence;
+        r.children.clear();
+        AST ast;
+        if(Type(ast)) {
+            
+        }
+    }
+}
+
+AST Sentences_():
+{}
+{
+    {
+        return new AST();
+    }
 }

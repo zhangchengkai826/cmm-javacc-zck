@@ -1,0 +1,12 @@
+bool {0}(AST r): 
+{{}}
+{{
+    {{
+        r.type = ASTType.{0};
+        r.children.clear();
+        AST ast;
+
+        {1}
+        return false;
+    }}
+}}

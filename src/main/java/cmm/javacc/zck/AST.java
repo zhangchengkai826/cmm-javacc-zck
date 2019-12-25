@@ -12,4 +12,7 @@ class AST {
     ASTType type;
     String origin;
     ArrayList<AST> children;
+    AST() {
+        children = new ArrayList<>();
+    }
 }

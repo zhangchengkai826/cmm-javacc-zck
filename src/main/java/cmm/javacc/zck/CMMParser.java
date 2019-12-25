@@ -14,9 +14,23 @@ class CMMParser implements CMMParserConstants {
         parser.Sentences();
     }
 
-  final public void Sentences() throws ParseException {
-      AST r = new AST();
-    jj_consume_token(0);
+  final public AST Sentences() throws ParseException {
+        AST r = new AST();
+        r.type = ASTType.Sentences;
+        r.children.add(Sentence());
+        r.children.add(Sentences_());
+        {if (true) return r;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public AST Sentence() throws ParseException {
+        {if (true) return new AST();}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public AST Sentences_() throws ParseException {
+        {if (true) return new AST();}
+    throw new Error("Missing return statement in function");
   }
 
   /** Generated Token Manager. */

@@ -1,0 +1,141 @@
+Sentences -> Sentence Sentences_
+Sentence -> Type DeclVarExpr *{* Sentences *}* Sentence_
+Sentence -> *RETURN* CommaExpr *;* Sentence_
+Sentence -> *RETURN* *;* Sentence_
+Sentence -> *{* Sentences *}* Sentence_
+Sentence -> Type DeclCommaExpr *;* Sentence_
+Sentence -> CommaExpr *;* Sentence_
+Sentence -> *IF* *(* CommaExpr *)* Sentence Sentence_
+Sentence -> *IF* *(* CommaExpr *)* Sentence *ELSE* Sentence Sentence_
+Sentence -> *WHILE* *(* CommaExpr *)* Sentence Sentence_
+Sentence -> *BREAK* *;* Sentence_
+Sentence -> *CONTINUE* *;* Sentence_
+Sentence -> *;* Sentence_
+FuncParamBracketExpr -> *(* *)* FuncParamBracketExpr_
+FuncParamBracketExpr -> *(* FuncParamCommaExpr *)* FuncParamBracketExpr_
+FuncParamCommaExpr -> FuncParamExpr FuncParamCommaExpr_
+FuncParamExpr -> Type DeclVarExpr FuncParamExpr_
+FuncParamExpr -> Type DeclTypeExpr FuncParamExpr_
+FuncParamExpr -> Type FuncParamExpr_
+DeclCommaExpr -> DeclExpr DeclCommaExpr_
+DeclExpr -> DeclVarExpr DeclExpr_
+DeclExpr -> DeclVarExpr *=* AssignExpr DeclExpr_
+DeclExpr -> DeclVarExpr *=* *{* CommaExpr *}* DeclExpr_
+Type -> *INT* Type_
+Type -> *REAL* Type_
+Type -> *CHAR* Type_
+Type -> *VOID* Type_
+Literal -> *INTLITERAL* Literal_
+Literal -> *REALLITERAL* Literal_
+Literal -> *CHARLITERAL* Literal_
+Literal -> *STRINGLITERAL* Literal_
+CommaExpr -> AssignExpr CommaExpr_
+AssignExpr -> LogicOrExpr *=* AssignExpr AssignExpr_
+AssignExpr -> LogicOrExpr AssignExpr_
+LogicOrExpr -> LogicAndExpr LogicOrExpr_
+LogicAndExpr -> BitOrExpr LogicAndExpr_
+BitOrExpr -> BitExOrExpr BitOrExpr_
+BitExOrExpr -> BitAndExpr BitExOrExpr_
+BitAndExpr -> RelExpr BitAndExpr_
+RelExpr -> AddSubExpr RelExpr_
+RelOp -> *<* RelOp_
+RelOp -> *<=* RelOp_
+RelOp -> *==* RelOp_
+RelOp -> *<>* RelOp_
+RelOp -> *>* RelOp_
+RelOp -> *>=* RelOp_
+AddSubExpr -> MulDivExpr AddSubExpr_
+AddSubOp -> *+* AddSubOp_
+AddSubOp -> *-* AddSubOp_
+MulDivExpr -> UnaryExpr MulDivExpr_
+MulDivOp -> *** MulDivOp_
+MulDivOp -> */* MulDivOp_
+MulDivOp -> *%* MulDivOp_
+UnaryExpr -> UnaryOp UnaryExpr UnaryExpr_
+UnaryExpr -> PostUnaryExpr UnaryExpr_
+UnaryOp -> *+* UnaryOp_
+UnaryOp -> *-* UnaryOp_
+UnaryOp -> *** UnaryOp_
+UnaryOp -> *&* UnaryOp_
+UnaryOp -> *!* UnaryOp_
+UnaryOp -> *~* UnaryOp_
+UnaryOp -> *++* UnaryOp_
+UnaryOp -> *--* UnaryOp_
+PostUnaryExpr -> BracketExpr PostUnaryExpr_
+PostUnaryOp -> *++* PostUnaryOp_
+PostUnaryOp -> *--* PostUnaryOp_
+PostUnaryOp -> *(* *)* PostUnaryOp_
+PostUnaryOp -> *(* CommaExpr *)* PostUnaryOp_
+PostUnaryOp -> *[* CommaExpr *]* PostUnaryOp_
+BracketExpr -> *(* CommaExpr *)* BracketExpr_
+BracketExpr -> *ID* BracketExpr_
+BracketExpr -> *INTLITERAL* Literal_ BracketExpr_
+BracketExpr -> *REALLITERAL* Literal_ BracketExpr_
+BracketExpr -> *CHARLITERAL* Literal_ BracketExpr_
+BracketExpr -> *STRINGLITERAL* Literal_ BracketExpr_
+DeclVarExpr -> *** DeclVarExpr DeclVarExpr_
+DeclVarExpr -> DeclVarArrFuncExpr DeclVarExpr_
+DeclVarArrFuncExpr -> DeclVarBracketExpr DeclVarArrFuncExpr_
+DeclVarBracketExpr -> *(* DeclVarExpr *)* DeclVarBracketExpr_
+DeclVarBracketExpr -> *ID* DeclVarBracketExpr_
+DeclTypeExpr -> *** DeclTypeExpr DeclTypeExpr_
+DeclTypeExpr -> DeclTypeArrFuncExpr DeclTypeExpr_
+DeclTypeExpr -> *** DeclTypeExpr_
+DeclTypeArrFuncExpr -> DeclTypeBracketExpr DeclTypeArrFuncExpr_
+DeclTypeArrFuncExpr -> *[* *]* DeclTypeArrFuncExpr_
+DeclTypeArrFuncExpr -> *[* *INTLITERAL* *]* DeclTypeArrFuncExpr_
+DeclTypeArrFuncExpr -> *(* *)* FuncParamBracketExpr_ DeclTypeArrFuncExpr_
+DeclTypeArrFuncExpr -> *(* FuncParamCommaExpr *)* FuncParamBracketExpr_ DeclTypeArrFuncExpr_
+DeclTypeBracketExpr -> *(* DeclTypeExpr *)* DeclTypeBracketExpr_
+Sentences_ -> Sentence Sentences_
+Sentences_ -> %E%
+Sentence_ -> %E%
+FuncParamBracketExpr_ -> %E%
+FuncParamCommaExpr_ -> *,* FuncParamExpr FuncParamCommaExpr_
+FuncParamCommaExpr_ -> %E%
+FuncParamExpr_ -> %E%
+DeclCommaExpr_ -> *,* DeclExpr DeclCommaExpr_
+DeclCommaExpr_ -> %E%
+DeclExpr_ -> %E%
+Type_ -> %E%
+Literal_ -> %E%
+CommaExpr_ -> *,* AssignExpr CommaExpr_
+CommaExpr_ -> %E%
+AssignExpr_ -> %E%
+LogicOrExpr_ -> *||* LogicAndExpr LogicOrExpr_
+LogicOrExpr_ -> %E%
+LogicAndExpr_ -> *&&* BitOrExpr LogicAndExpr_
+LogicAndExpr_ -> %E%
+BitOrExpr_ -> *|* BitExOrExpr BitOrExpr_
+BitOrExpr_ -> %E%
+BitExOrExpr_ -> *^* BitAndExpr BitExOrExpr_
+BitExOrExpr_ -> %E%
+BitAndExpr_ -> *&* RelExpr BitAndExpr_
+BitAndExpr_ -> %E%
+RelExpr_ -> RelOp AddSubExpr RelExpr_
+RelExpr_ -> %E%
+RelOp_ -> %E%
+AddSubExpr_ -> AddSubOp MulDivExpr AddSubExpr_
+AddSubExpr_ -> %E%
+AddSubOp_ -> %E%
+MulDivExpr_ -> MulDivOp UnaryExpr MulDivExpr_
+MulDivExpr_ -> %E%
+MulDivOp_ -> %E%
+UnaryExpr_ -> %E%
+UnaryOp_ -> %E%
+PostUnaryExpr_ -> PostUnaryOp PostUnaryExpr_
+PostUnaryExpr_ -> %E%
+PostUnaryOp_ -> %E%
+BracketExpr_ -> %E%
+DeclVarExpr_ -> %E%
+DeclVarArrFuncExpr_ -> *[* *]* DeclVarArrFuncExpr_
+DeclVarArrFuncExpr_ -> *[* *INTLITERAL* *]* DeclVarArrFuncExpr_
+DeclVarArrFuncExpr_ -> FuncParamBracketExpr DeclVarArrFuncExpr_
+DeclVarArrFuncExpr_ -> %E%
+DeclVarBracketExpr_ -> %E%
+DeclTypeExpr_ -> %E%
+DeclTypeArrFuncExpr_ -> *[* *]* DeclTypeArrFuncExpr_
+DeclTypeArrFuncExpr_ -> *[* *INTLITERAL* *]* DeclTypeArrFuncExpr_
+DeclTypeArrFuncExpr_ -> FuncParamBracketExpr DeclTypeArrFuncExpr_
+DeclTypeArrFuncExpr_ -> %E%
+DeclTypeBracketExpr_ -> %E%
