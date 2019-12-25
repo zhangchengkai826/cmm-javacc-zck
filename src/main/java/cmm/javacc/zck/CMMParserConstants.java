@@ -11,8 +11,6 @@ public interface CMMParserConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int EMPTY = 1;
-  /** RegularExpression Id. */
   int IF = 14;
   /** RegularExpression Id. */
   int ELSE = 15;
@@ -91,35 +89,33 @@ public interface CMMParserConstants {
   /** RegularExpression Id. */
   int MOD = 52;
   /** RegularExpression Id. */
-  int ILT = 53;
+  int ID = 53;
   /** RegularExpression Id. */
-  int RLT = 54;
+  int ILT = 54;
   /** RegularExpression Id. */
-  int DIGITS = 55;
+  int RLT = 55;
   /** RegularExpression Id. */
-  int CLT = 56;
+  int DIGITS = 56;
   /** RegularExpression Id. */
-  int SLT = 57;
+  int CLT = 57;
   /** RegularExpression Id. */
-  int ID = 58;
+  int SLT = 58;
 
   /** Lexical state. */
   int DEFAULT = 0;
   /** Lexical state. */
-  int MATCH_NON_EMPTY = 1;
+  int WithinMultiComment = 1;
   /** Lexical state. */
-  int WithinMultiComment = 2;
-  /** Lexical state. */
-  int WithinLineComment = 3;
+  int WithinLineComment = 2;
 
   /** Literal token values. */
   String[] tokenImage = {
     "<EOF>",
-    "\"\"",
     "\" \"",
     "\"\\n\"",
     "\"\\r\"",
     "\"\\r\\n\"",
+    "\"\\t\"",
     "\"/*\"",
     "\"*/\"",
     "<token of kind 8>",
@@ -167,12 +163,12 @@ public interface CMMParserConstants {
     "\"--\"",
     "\"++\"",
     "\"%\"",
+    "<ID>",
     "<ILT>",
     "<RLT>",
     "<DIGITS>",
     "<CLT>",
     "<SLT>",
-    "<ID>",
   };
 
 }

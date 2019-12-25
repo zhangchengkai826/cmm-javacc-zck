@@ -1,6 +1,5 @@
 options { 
     STATIC = false;
-    LOOKAHEAD = 3;
 }
 
 PARSER_BEGIN(CMMParser) 
@@ -10,7 +9,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 
-class CMMParser {
+public class CMMParser {
     static final String TEST_FILE_PATH = "C:\\Users\\andys\\source\\repos\\cmm-javacc-zck\\src\\main\\java\\cmm\\javacc\\zck\\test.cmm";
     public static void main( String[] args ) throws ParseException, TokenMgrError, FileNotFoundException {
         File file = new File(TEST_FILE_PATH);
@@ -22,66 +21,69 @@ class CMMParser {
 }
 PARSER_END(CMMParser)
 
-TOKEN : { < EMPTY : "" > : MATCH_NON_EMPTY }
-
-<MATCH_NON_EMPTY> SKIP : { " " }
-<MATCH_NON_EMPTY> SKIP : { "\n" | "\r" | "\r\n" }
-<MATCH_NON_EMPTY> SKIP : { "/*" : WithinMultiComment }
-<WithinMultiComment> SKIP : { "*/" : MATCH_NON_EMPTY}
+SKIP : { " " }
+SKIP : { "\n" | "\r" | "\r\n" | "\t" }
+SKIP : { "/*" : WithinMultiComment }
+<WithinMultiComment> SKIP : { "*/" : DEFAULT}
 <WithinMultiComment> MORE : { < ~[] > }
-<MATCH_NON_EMPTY> SKIP : { "//" : WithinLineComment }
-<WithinLineComment> SKIP : { "\r" | "\n" | "\r\n" : MATCH_NON_EMPTY}
+SKIP : { "//" : WithinLineComment }
+<WithinLineComment> SKIP : { "\r" | "\n" | "\r\n" : DEFAULT}
 <WithinLineComment> MORE : { < ~[] > }
 
-<MATCH_NON_EMPTY> TOKEN : { < IF: "if" > }
-<MATCH_NON_EMPTY> TOKEN : { < ELSE: "else" > }
-<MATCH_NON_EMPTY> TOKEN : { < WHILE: "while" > }
-<MATCH_NON_EMPTY> TOKEN : { < BREAK: "break" > }
-<MATCH_NON_EMPTY> TOKEN : { < CONTINUE: "continue" > }
-<MATCH_NON_EMPTY> TOKEN : { < RETURN: "return" > }
-<MATCH_NON_EMPTY> TOKEN : { < INT: "int" > }
-<MATCH_NON_EMPTY> TOKEN : { < REAL: "real" > }
-<MATCH_NON_EMPTY> TOKEN : { < CHAR: "char" > }
-<MATCH_NON_EMPTY> TOKEN : { < VOID: "void" > }
-<MATCH_NON_EMPTY> TOKEN : { < LCB: "{" > }
-<MATCH_NON_EMPTY> TOKEN : { < RCB: "}" > }
-<MATCH_NON_EMPTY> TOKEN : { < SEMI: ";" > }
-<MATCH_NON_EMPTY> TOKEN : { < LRB: "(" > }
-<MATCH_NON_EMPTY> TOKEN : { < RRB: ")" > }
-<MATCH_NON_EMPTY> TOKEN : { < ASN: "=" > }
-<MATCH_NON_EMPTY> TOKEN : { < LSB: "[" > }
-<MATCH_NON_EMPTY> TOKEN : { < RSB: "]" > }
-<MATCH_NON_EMPTY> TOKEN : { < LT: "<" > }
-<MATCH_NON_EMPTY> TOKEN : { < LTE: "<=" > }
-<MATCH_NON_EMPTY> TOKEN : { < EQ: "==" > }
-<MATCH_NON_EMPTY> TOKEN : { < NEQ: "<>" > }
-<MATCH_NON_EMPTY> TOKEN : { < GT: ">" > }
-<MATCH_NON_EMPTY> TOKEN : { < GTE: ">=" > }
-<MATCH_NON_EMPTY> TOKEN : { < ADD: "+" > }
-<MATCH_NON_EMPTY> TOKEN : { < SUB: "-" > }
-<MATCH_NON_EMPTY> TOKEN : { < MUL: "*" > }
-<MATCH_NON_EMPTY> TOKEN : { < DIV: "/" > }
-<MATCH_NON_EMPTY> TOKEN : { < CMMA: "," > }
-<MATCH_NON_EMPTY> TOKEN : { < LAND: "&&" > }
-<MATCH_NON_EMPTY> TOKEN : { < BAND: "&" > }
-<MATCH_NON_EMPTY> TOKEN : { < LOR: "||" > }
-<MATCH_NON_EMPTY> TOKEN : { < BOR: "|" > }
-<MATCH_NON_EMPTY> TOKEN : { < BXOR: "^" > }
-<MATCH_NON_EMPTY> TOKEN : { < LNT: "!" > }
-<MATCH_NON_EMPTY> TOKEN : { < BNT: "~" > }
-<MATCH_NON_EMPTY> TOKEN : { < DEC: "--" > }
-<MATCH_NON_EMPTY> TOKEN : { < INC: "++" > }
-<MATCH_NON_EMPTY> TOKEN : { < MOD: "%" > }
-<MATCH_NON_EMPTY> TOKEN : { < ILT: ("0" ["X", "x"] (["0"-"9", "A"-"F", "a"-"f"])+) | ((<DIGITS>)+) > }
-<MATCH_NON_EMPTY> TOKEN : { < RLT: ((((<DIGITS>)+ "." (<DIGITS>)*) | ((<DIGITS>)* "." (<DIGITS>)+)) (["e", "E"] (["+", "-"])? (<DIGITS>)+)?) | ((<DIGITS>)+ ["e", "E"] (["+", "-"])? (<DIGITS>)+) > }
-<MATCH_NON_EMPTY> TOKEN : { < #DIGITS: ["0"-"9"] > }
-<MATCH_NON_EMPTY> TOKEN : { < CLT: "'"  (("\\" "~[]") | (~["'", "\\"])) "'"  > }
-<MATCH_NON_EMPTY> TOKEN : { < SLT: "\""  (("\\" "~[]") | (~["\"", "\\"]))* "\"" > }
-<MATCH_NON_EMPTY> TOKEN : { < ID: ["A"-"Z", "a"-"z"] ((["A"-"Z", "a"-"z", "_"])* ["A"-"Z", "a"-"z", "0"-"9"])? > }
+TOKEN : { < IF: "if" > }
+TOKEN : { < ELSE: "else" > }
+TOKEN : { < WHILE: "while" > }
+TOKEN : { < BREAK: "break" > }
+TOKEN : { < CONTINUE: "continue" > }
+TOKEN : { < RETURN: "return" > }
+TOKEN : { < INT: "int" > }
+TOKEN : { < REAL: "real" > }
+TOKEN : { < CHAR: "char" > }
+TOKEN : { < VOID: "void" > }
+TOKEN : { < LCB: "{" > }
+TOKEN : { < RCB: "}" > }
+TOKEN : { < SEMI: ";" > }
+TOKEN : { < LRB: "(" > }
+TOKEN : { < RRB: ")" > }
+TOKEN : { < ASN: "=" > }
+TOKEN : { < LSB: "[" > }
+TOKEN : { < RSB: "]" > }
+TOKEN : { < LT: "<" > }
+TOKEN : { < LTE: "<=" > }
+TOKEN : { < EQ: "==" > }
+TOKEN : { < NEQ: "<>" > }
+TOKEN : { < GT: ">" > }
+TOKEN : { < GTE: ">=" > }
+TOKEN : { < ADD: "+" > }
+TOKEN : { < SUB: "-" > }
+TOKEN : { < MUL: "*" > }
+TOKEN : { < DIV: "/" > }
+TOKEN : { < CMMA: "," > }
+TOKEN : { < LAND: "&&" > }
+TOKEN : { < BAND: "&" > }
+TOKEN : { < LOR: "||" > }
+TOKEN : { < BOR: "|" > }
+TOKEN : { < BXOR: "^" > }
+TOKEN : { < LNT: "!" > }
+TOKEN : { < BNT: "~" > }
+TOKEN : { < DEC: "--" > }
+TOKEN : { < INC: "++" > }
+TOKEN : { < MOD: "%" > }
+TOKEN : { < ID: ["A"-"Z", "a"-"z"] ((["A"-"Z", "a"-"z", "0"-"9", "_"])* ["A"-"Z", "a"-"z", "0"-"9"])? > }
+TOKEN : { < ILT: ("0" ["X", "x"] (["0"-"9", "A"-"F", "a"-"f"])+) | ((<DIGITS>)+) > }
+TOKEN : { < RLT: ((((<DIGITS>)+ "." (<DIGITS>)*) | ((<DIGITS>)* "." (<DIGITS>)+)) (["e", "E"] (["+", "-"])? (<DIGITS>)+)?) | ((<DIGITS>)+ ["e", "E"] (["+", "-"])? (<DIGITS>)+) > }
+TOKEN : { < #DIGITS: ["0"-"9"] > }
+TOKEN : { < CLT: "'"  (("\\" (~[])) | (~["'", "\\"])) "'"  > }
+TOKEN : { < SLT: "\""  (("\\" (~[])) | (~["\"", "\\"]))* "\"" > }
 
 SimpleNode Sentences() #Sentences : {}
 {
-  <EMPTY> Sentence() Sentences_() <EOF> {return jjtThis;}
+  Sentence() Sentences_() 
+  (
+    <EOF>
+    | Empty()
+  )
+  {return jjtThis;}
 }
 void Empty() #Empty : {}
 {
@@ -89,14 +91,23 @@ void Empty() #Empty : {}
 }
 void Sentence() #Sentence : {}
 {
-  Type() DeclVarExpr() LCB() Sentences() RCB() Sentence_() 
-  | RETURN() CommaExpr() SEMI() Sentence_() 
-  | RETURN() SEMI() Sentence_() 
+  Type() 
+  (
+    LOOKAHEAD(DeclVarExpr() LCB() Sentences() RCB()) DeclVarExpr() LCB() Sentences() RCB() Sentence_() 
+    | DeclCommaExpr() SEMI() Sentence_() 
+  )
+  | IF() LRB() CommaExpr() RRB() Sentence() 
+  (
+    ELSE() Sentence() Sentence_() 
+    | Sentence_() 
+  )
+  | RETURN() 
+  (
+    CommaExpr() SEMI() Sentence_() 
+    | SEMI() Sentence_() 
+  )
   | LCB() Sentences() RCB() Sentence_() 
-  | Type() DeclCommaExpr() SEMI() Sentence_() 
   | CommaExpr() SEMI() Sentence_() 
-  | IF() LRB() CommaExpr() RRB() Sentence() Sentence_() 
-  | IF() LRB() CommaExpr() RRB() Sentence() ELSE() Sentence() Sentence_() 
   | WHILE() LRB() CommaExpr() RRB() Sentence() Sentence_() 
   | BREAK() SEMI() Sentence_() 
   | CONTINUE() SEMI() Sentence_() 
@@ -104,8 +115,11 @@ void Sentence() #Sentence : {}
 }
 void FuncParamBracketExpr() #FuncParamBracketExpr : {}
 {
-  LRB() RRB() FuncParamBracketExpr_() 
-  | LRB() FuncParamCommaExpr() RRB() FuncParamBracketExpr_() 
+  LRB() 
+  (
+    RRB() FuncParamBracketExpr_() 
+    | FuncParamCommaExpr() RRB() FuncParamBracketExpr_() 
+  )
 }
 void FuncParamCommaExpr() #FuncParamCommaExpr : {}
 {
@@ -113,9 +127,12 @@ void FuncParamCommaExpr() #FuncParamCommaExpr : {}
 }
 void FuncParamExpr() #FuncParamExpr : {}
 {
-  Type() DeclVarExpr() FuncParamExpr_() 
-  | Type() DeclTypeExpr() FuncParamExpr_() 
-  | Type() FuncParamExpr_() 
+  Type() 
+  (
+    LOOKAHEAD(DeclVarExpr()) DeclVarExpr() FuncParamExpr_() 
+    | DeclTypeExpr() FuncParamExpr_() 
+    | FuncParamExpr_()
+  ) 
 }
 void DeclCommaExpr() #DeclCommaExpr : {}
 {
@@ -123,9 +140,15 @@ void DeclCommaExpr() #DeclCommaExpr : {}
 }
 void DeclExpr() #DeclExpr : {}
 {
-  DeclVarExpr() DeclExpr_() 
-  | DeclVarExpr() ASN() AssignExpr() DeclExpr_() 
-  | DeclVarExpr() ASN() LCB() CommaExpr() RCB() DeclExpr_() 
+  DeclVarExpr() 
+  (
+    ASN()
+    (
+      AssignExpr() DeclExpr_() 
+      | LCB() CommaExpr() RCB() DeclExpr_() 
+    )
+    | DeclExpr_()
+  )
 }
 void Type() #Type : {}
 {
@@ -147,8 +170,11 @@ void CommaExpr() #CommaExpr : {}
 }
 void AssignExpr() #AssignExpr : {}
 {
-  LogicOrExpr() ASN() AssignExpr() AssignExpr_() 
-  | LogicOrExpr() AssignExpr_() 
+  LogicOrExpr()
+  (
+    ASN() AssignExpr() AssignExpr_()  
+    | AssignExpr_() 
+  ) 
 }
 void LogicOrExpr() #LogicOrExpr : {}
 {
@@ -226,8 +252,11 @@ void PostUnaryOp() #PostUnaryOp : {}
 {
   INC() PostUnaryOp_() 
   | DEC() PostUnaryOp_() 
-  | LRB() RRB() PostUnaryOp_() 
-  | LRB() CommaExpr() RRB() PostUnaryOp_() 
+  | LRB() 
+  (
+    RRB() PostUnaryOp_() 
+    | CommaExpr() RRB() PostUnaryOp_() 
+  )
   | LSB() CommaExpr() RSB() PostUnaryOp_() 
 }
 void BracketExpr() #BracketExpr : {}
@@ -255,17 +284,24 @@ void DeclVarBracketExpr() #DeclVarBracketExpr : {}
 }
 void DeclTypeExpr() #DeclTypeExpr : {}
 {
-  MUL() DeclTypeExpr() DeclTypeExpr_() 
+  MUL() 
+  (
+    DeclTypeExpr() DeclTypeExpr_() 
+    | DeclTypeExpr_() 
+  )
   | DeclTypeArrFuncExpr() DeclTypeExpr_() 
-  | MUL() DeclTypeExpr_() 
 }
 void DeclTypeArrFuncExpr() #DeclTypeArrFuncExpr : {}
 {
-  DeclTypeBracketExpr() DeclTypeArrFuncExpr_() 
-  | LSB() RSB() DeclTypeArrFuncExpr_() 
-  | LSB() ILT() RSB() DeclTypeArrFuncExpr_() 
-  | LRB() RRB() FuncParamBracketExpr_() DeclTypeArrFuncExpr_() 
-  | LRB() FuncParamCommaExpr() RRB() FuncParamBracketExpr_() DeclTypeArrFuncExpr_() 
+  LOOKAHEAD(DeclTypeBracketExpr()) DeclTypeBracketExpr() DeclTypeArrFuncExpr_() 
+  | LSB() (
+    RSB() DeclTypeArrFuncExpr_() 
+    | ILT() RSB() DeclTypeArrFuncExpr_() 
+  )
+  | LRB() (
+    RRB() FuncParamBracketExpr_() DeclTypeArrFuncExpr_() 
+    | FuncParamCommaExpr() RRB() FuncParamBracketExpr_() DeclTypeArrFuncExpr_() 
+  )
 }
 void DeclTypeBracketExpr() #DeclTypeBracketExpr : {}
 {
@@ -398,8 +434,11 @@ void DeclVarExpr_() #DeclVarExpr_ : {}
 }
 void DeclVarArrFuncExpr_() #DeclVarArrFuncExpr_ : {}
 {
-  LSB() RSB() DeclVarArrFuncExpr_() 
-  | LSB() ILT() RSB() DeclVarArrFuncExpr_() 
+  LSB() 
+  (
+    RSB() DeclVarArrFuncExpr_() 
+    | ILT() RSB() DeclVarArrFuncExpr_() 
+  )
   | FuncParamBracketExpr() DeclVarArrFuncExpr_() 
   | Empty() 
 }
@@ -413,8 +452,11 @@ void DeclTypeExpr_() #DeclTypeExpr_ : {}
 }
 void DeclTypeArrFuncExpr_() #DeclTypeArrFuncExpr_ : {}
 {
-  LSB() RSB() DeclTypeArrFuncExpr_() 
-  | LSB() ILT() RSB() DeclTypeArrFuncExpr_() 
+  LSB() 
+  (
+    RSB() DeclTypeArrFuncExpr_() 
+    | ILT() RSB() DeclTypeArrFuncExpr_() 
+  )
   | FuncParamBracketExpr() DeclTypeArrFuncExpr_() 
   | Empty() 
 }
