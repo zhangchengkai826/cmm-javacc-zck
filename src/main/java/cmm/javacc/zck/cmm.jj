@@ -4,14 +4,18 @@ options {
 
 PARSER_BEGIN(CMMParser) 
 package cmm.javacc.zck;
-import java.io.Reader; 
-import java.io.StringReader;
-import java.io.PrintStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
 
 class CMMParser {
-    public static void main( String[] args ) throws ParseException, TokenMgrError {
-        CMMParser parser = new CMMParser(System.in);
-        parser.Start(System.out);
+    static final String TEST_FILE_PATH = "C:\\Users\\andys\\source\\repos\\cmm-javacc-zck\\src\\main\\java\\cmm\\javacc\\zck\\test.cmm";
+    public static void main( String[] args ) throws ParseException, TokenMgrError, FileNotFoundException {
+        File file = new File(TEST_FILE_PATH);
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        CMMParser parser = new CMMParser(br);
+        parser.Sentences();
     }
 }
 PARSER_END(CMMParser)
@@ -70,8 +74,9 @@ TOKEN : { < CLT: "'"  (("\\" "~[]") | (~["'", "\\"])) "'"  > }
 TOKEN : { < SLT: "\""  (("\\" "~[]") | (~["\"", "\\"]))* "\"" > }
 TOKEN : { < ID: ["A"-"Z", "a"-"z"] ((["A"-"Z", "a"-"z", "_"])* ["A"-"Z", "a"-"z", "0"-"9"])? > }
 
-void Start(PrintStream s): 
+void Sentences(): 
 {}
 {
+    { AST r = new AST(); }
     <EOF>
 }
