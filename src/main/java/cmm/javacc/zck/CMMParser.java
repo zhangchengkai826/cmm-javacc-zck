@@ -31,7 +31,7 @@ public class CMMParser/*@bgen(jjtree)*/ extends JPanel implements CMMParserTreeC
             ex.printStackTrace();
         }
 
-        JFrame frame = new JFrame("Testing");
+        JFrame frame = new JFrame("CMM Parser (Java CC Version)");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(new CMMParser());
         frame.pack();
@@ -44,9 +44,7 @@ public class CMMParser/*@bgen(jjtree)*/ extends JPanel implements CMMParserTreeC
   public CMMParser() {
     super(new GridLayout(1,0));
 
-    DefaultMutableTreeNode srt = new DefaultMutableTreeNode("<ROOT>");
     SimpleNode drt = null;
-
     try {
       File file = new File(TEST_FILE_PATH);
       BufferedReader br = new BufferedReader(new FileReader(file));
@@ -56,6 +54,7 @@ public class CMMParser/*@bgen(jjtree)*/ extends JPanel implements CMMParserTreeC
       ex.printStackTrace();
       System.exit(1);
     }
+    DefaultMutableTreeNode srt = new DefaultMutableTreeNode(drt.toString());
     createNodes(srt, drt);
 
     tree = new JTree(srt);
