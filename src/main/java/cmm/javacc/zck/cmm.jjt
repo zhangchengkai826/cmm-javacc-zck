@@ -1,6 +1,91 @@
-void Sentences() #Sentences : {}
+options { 
+    STATIC = false;
+    LOOKAHEAD = 3;
+}
+
+PARSER_BEGIN(CMMParser) 
+package cmm.javacc.zck;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
+
+class CMMParser {
+    static final String TEST_FILE_PATH = "C:\\Users\\andys\\source\\repos\\cmm-javacc-zck\\src\\main\\java\\cmm\\javacc\\zck\\test.cmm";
+    public static void main( String[] args ) throws ParseException, TokenMgrError, FileNotFoundException {
+        File file = new File(TEST_FILE_PATH);
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        CMMParser parser = new CMMParser(br);
+        SimpleNode root = parser.Sentences();
+        root.dump("");
+    }
+}
+PARSER_END(CMMParser)
+
+TOKEN : { < EMPTY : "" > : MATCH_NON_EMPTY }
+
+<MATCH_NON_EMPTY> SKIP : { " " }
+<MATCH_NON_EMPTY> SKIP : { "\n" | "\r" | "\r\n" }
+<MATCH_NON_EMPTY> SKIP : { "/*" : WithinMultiComment }
+<WithinMultiComment> SKIP : { "*/" : MATCH_NON_EMPTY}
+<WithinMultiComment> MORE : { < ~[] > }
+<MATCH_NON_EMPTY> SKIP : { "//" : WithinLineComment }
+<WithinLineComment> SKIP : { "\r" | "\n" | "\r\n" : MATCH_NON_EMPTY}
+<WithinLineComment> MORE : { < ~[] > }
+
+<MATCH_NON_EMPTY> TOKEN : { < IF: "if" > }
+<MATCH_NON_EMPTY> TOKEN : { < ELSE: "else" > }
+<MATCH_NON_EMPTY> TOKEN : { < WHILE: "while" > }
+<MATCH_NON_EMPTY> TOKEN : { < BREAK: "break" > }
+<MATCH_NON_EMPTY> TOKEN : { < CONTINUE: "continue" > }
+<MATCH_NON_EMPTY> TOKEN : { < RETURN: "return" > }
+<MATCH_NON_EMPTY> TOKEN : { < INT: "int" > }
+<MATCH_NON_EMPTY> TOKEN : { < REAL: "real" > }
+<MATCH_NON_EMPTY> TOKEN : { < CHAR: "char" > }
+<MATCH_NON_EMPTY> TOKEN : { < VOID: "void" > }
+<MATCH_NON_EMPTY> TOKEN : { < LCB: "{" > }
+<MATCH_NON_EMPTY> TOKEN : { < RCB: "}" > }
+<MATCH_NON_EMPTY> TOKEN : { < SEMI: ";" > }
+<MATCH_NON_EMPTY> TOKEN : { < LRB: "(" > }
+<MATCH_NON_EMPTY> TOKEN : { < RRB: ")" > }
+<MATCH_NON_EMPTY> TOKEN : { < ASN: "=" > }
+<MATCH_NON_EMPTY> TOKEN : { < LSB: "[" > }
+<MATCH_NON_EMPTY> TOKEN : { < RSB: "]" > }
+<MATCH_NON_EMPTY> TOKEN : { < LT: "<" > }
+<MATCH_NON_EMPTY> TOKEN : { < LTE: "<=" > }
+<MATCH_NON_EMPTY> TOKEN : { < EQ: "==" > }
+<MATCH_NON_EMPTY> TOKEN : { < NEQ: "<>" > }
+<MATCH_NON_EMPTY> TOKEN : { < GT: ">" > }
+<MATCH_NON_EMPTY> TOKEN : { < GTE: ">=" > }
+<MATCH_NON_EMPTY> TOKEN : { < ADD: "+" > }
+<MATCH_NON_EMPTY> TOKEN : { < SUB: "-" > }
+<MATCH_NON_EMPTY> TOKEN : { < MUL: "*" > }
+<MATCH_NON_EMPTY> TOKEN : { < DIV: "/" > }
+<MATCH_NON_EMPTY> TOKEN : { < CMMA: "," > }
+<MATCH_NON_EMPTY> TOKEN : { < LAND: "&&" > }
+<MATCH_NON_EMPTY> TOKEN : { < BAND: "&" > }
+<MATCH_NON_EMPTY> TOKEN : { < LOR: "||" > }
+<MATCH_NON_EMPTY> TOKEN : { < BOR: "|" > }
+<MATCH_NON_EMPTY> TOKEN : { < BXOR: "^" > }
+<MATCH_NON_EMPTY> TOKEN : { < LNT: "!" > }
+<MATCH_NON_EMPTY> TOKEN : { < BNT: "~" > }
+<MATCH_NON_EMPTY> TOKEN : { < DEC: "--" > }
+<MATCH_NON_EMPTY> TOKEN : { < INC: "++" > }
+<MATCH_NON_EMPTY> TOKEN : { < MOD: "%" > }
+<MATCH_NON_EMPTY> TOKEN : { < ILT: ("0" ["X", "x"] (["0"-"9", "A"-"F", "a"-"f"])+) | ((<DIGITS>)+) > }
+<MATCH_NON_EMPTY> TOKEN : { < RLT: ((((<DIGITS>)+ "." (<DIGITS>)*) | ((<DIGITS>)* "." (<DIGITS>)+)) (["e", "E"] (["+", "-"])? (<DIGITS>)+)?) | ((<DIGITS>)+ ["e", "E"] (["+", "-"])? (<DIGITS>)+) > }
+<MATCH_NON_EMPTY> TOKEN : { < #DIGITS: ["0"-"9"] > }
+<MATCH_NON_EMPTY> TOKEN : { < CLT: "'"  (("\\" "~[]") | (~["'", "\\"])) "'"  > }
+<MATCH_NON_EMPTY> TOKEN : { < SLT: "\""  (("\\" "~[]") | (~["\"", "\\"]))* "\"" > }
+<MATCH_NON_EMPTY> TOKEN : { < ID: ["A"-"Z", "a"-"z"] ((["A"-"Z", "a"-"z", "_"])* ["A"-"Z", "a"-"z", "0"-"9"])? > }
+
+SimpleNode Sentences() #Sentences : {}
 {
-  Sentence() Sentences_() 
+  <EMPTY> Sentence() Sentences_() <EOF> {return jjtThis;}
+}
+void Empty() #Empty : {}
+{
+  {}
 }
 void Sentence() #Sentence : {}
 {

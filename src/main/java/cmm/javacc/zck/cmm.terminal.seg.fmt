@@ -1,0 +1,4 @@
+void {0}() #{0} : {{ Token t; }}
+{{
+  t = <{0}> {{ jjtThis.value = t.image; }}
+}}
