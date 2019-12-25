@@ -1,0 +1,77 @@
+options { 
+    STATIC = false;
+}
+
+PARSER_BEGIN(CMMParser) 
+package cmm.javacc.zck;
+import java.io.Reader; 
+import java.io.StringReader;
+import java.io.PrintStream;
+
+class CMMParser {
+    public static void main( String[] args ) throws ParseException, TokenMgrError {
+        CMMParser parser = new CMMParser(System.in);
+        parser.Start(System.out);
+    }
+}
+PARSER_END(CMMParser)
+
+SKIP : { " " }
+SKIP : { "\n" | "\r" | "\r\n" }
+SKIP : { "/*" : WithinMultiComment }
+<WithinMultiComment> SKIP : { "*/" : DEFAULT}
+<WithinMultiComment> MORE : { < ~[] > }
+SKIP : { "//" : WithinLineComment }
+<WithinLineComment> SKIP : { "\r" | "\n" | "\r\n" : DEFAULT}
+<WithinLineComment> MORE : { < ~[] > }
+TOKEN : { < IF: "if" > }
+TOKEN : { < ELSE: "else" > }
+TOKEN : { < WHILE: "while" > }
+TOKEN : { < BREAK: "break" > }
+TOKEN : { < CONTINUE: "continue" > }
+TOKEN : { < RETURN: "return" > }
+TOKEN : { < INT: "int" > }
+TOKEN : { < REAL: "real" > }
+TOKEN : { < CHAR: "char" > }
+TOKEN : { < VOID: "void" > }
+TOKEN : { < LCB: "{" > }
+TOKEN : { < RCB: "}" > }
+TOKEN : { < SEMI: ";" > }
+TOKEN : { < LRB: "(" > }
+TOKEN : { < RRB: ")" > }
+TOKEN : { < ASN: "=" > }
+TOKEN : { < LSB: "[" > }
+TOKEN : { < RSB: "]" > }
+TOKEN : { < LT: "<" > }
+TOKEN : { < LTE: "<=" > }
+TOKEN : { < EQ: "==" > }
+TOKEN : { < NEQ: "<>" > }
+TOKEN : { < GT: ">" > }
+TOKEN : { < GTE: ">=" > }
+TOKEN : { < ADD: "+" > }
+TOKEN : { < SUB: "-" > }
+TOKEN : { < MUL: "*" > }
+TOKEN : { < DIV: "/" > }
+TOKEN : { < CMMA: "," > }
+TOKEN : { < LAND: "&&" > }
+TOKEN : { < BAND: "&" > }
+TOKEN : { < LOR: "||" > }
+TOKEN : { < BOR: "|" > }
+TOKEN : { < BXOR: "^" > }
+TOKEN : { < LNT: "!" > }
+TOKEN : { < BNT: "~" > }
+TOKEN : { < DEC: "--" > }
+TOKEN : { < INC: "++" > }
+TOKEN : { < MOD: "%" > }
+TOKEN : { < ILT: ("0" ["X", "x"] (["0"-"9", "A"-"F", "a"-"f"])+) | ((<DIGITS>)+) > }
+TOKEN : { < RLT: ((((<DIGITS>)+ "." (<DIGITS>)*) | ((<DIGITS>)* "." (<DIGITS>)+)) (["e", "E"] (["+", "-"])? (<DIGITS>)+)?) | ((<DIGITS>)+ ["e", "E"] (["+", "-"])? (<DIGITS>)+) > }
+TOKEN : { < #DIGITS: ["0"-"9"] > }
+TOKEN : { < CLT: "'"  (("\\" "~[]") | (~["'", "\\"])) "'"  > }
+TOKEN : { < SLT: "\""  (("\\" "~[]") | (~["\"", "\\"]))* "\"" > }
+TOKEN : { < ID: ["A"-"Z", "a"-"z"] ((["A"-"Z", "a"-"z", "_"])* ["A"-"Z", "a"-"z", "0"-"9"])? > }
+
+void Start(PrintStream s): 
+{}
+{
+    <EOF>
+}

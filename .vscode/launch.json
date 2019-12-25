@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - CMMParser",
+            "request": "launch",
+            "mainClass": "cmm.javacc.zck.CMMParser",
+            "projectName": "cmm-javacc-zck"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - App",
+            "request": "launch",
+            "mainClass": "cmm.javacc.zck.App",
+            "projectName": "cmm-javacc-zck"
+        }
+    ]
+}
