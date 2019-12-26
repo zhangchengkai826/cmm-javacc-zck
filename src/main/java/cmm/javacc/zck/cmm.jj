@@ -5,24 +5,10 @@
 
 PARSER_BEGIN(CMMParser) 
 package cmm.javacc.zck;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileNotFoundException;
-
 public class CMMParser/*@bgen(jjtree)*/implements CMMParserTreeConstants/*@egen*/ {/*@bgen(jjtree)*/
   protected JJTCMMParserState jjtree = new JJTCMMParserState();
 
-/*@egen*/
-    static final String TEST_FILE_PATH = "C:\\Users\\andys\\source\\repos\\cmm-javacc-zck\\src\\main\\java\\cmm\\javacc\\zck\\test.cmm";
-    public static void main( String[] args ) throws ParseException, TokenMgrError, FileNotFoundException {
-        File file = new File(TEST_FILE_PATH);
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        CMMParser parser = new CMMParser(br);
-        SimpleNode root = parser.Sentences();
-        root.dump("");
-    }
-}
+/*@egen*/}
 PARSER_END(CMMParser)
 
 SKIP : { " " }
